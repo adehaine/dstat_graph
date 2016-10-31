@@ -1,35 +1,33 @@
-/*
- * Disk
+/**
+ * Load average
  */
 
-function dsk_total_data(data) {
-  for (var idata in data) {
-    var ldata = data[idata];
-    /* Byte to MB */
-    data[idata].y = Math.round((data[idata].y / (1024 * 1024) ));
-  }
+function load_avg_graph(graph) {
+  graph.yAxis.axisLabel('Load average');
+}
 
+function load_avg_options() {
+  return {};
+}
+
+function load_avg_data(data) {
   return data;
 }
 
-function dsk_total_options() {
-  return { area: true };
-}
 
-function dsk_total_graph(graph) {
-  graph.yAxis.axisLabel('Trafic (MB)').tickFormat(function(d) { return d3.format('.2f')(d); });
-}
-
-/*
- * CPU
+/**
+ * CPU usage
  */
 
 function total_cpu_usage_graph(graph) {
-  graph.yAxis.axisLabel('%');
+  graph.yAxis.axisLabel('CPU usage (%)');
   graph.color(function (d) {
-      if (d.key == 'idl') return 'white'; if (d.key == 'usr') return '#aec7e8'; if (d.key == 'sys') return '#ff7f7f';
-      if (d.key == 'stl') return '#7b94b5'; return '#ffd384';
-  })
+    if (d.key == 'idl') return 'white';
+    if (d.key == 'usr') return '#aec7e8';
+    if (d.key == 'sys') return '#ff7f7f';
+    if (d.key == 'stl') return '#7b94b5';
+    return '#ffd384';
+  });
 }
 
 function total_cpu_usage_options() {
@@ -41,47 +39,79 @@ function total_cpu_usage_data(data) {
 }
 
 
-/*
- * Network
- */
-
-function net_total_data(data) {
-  for (var idata in data) {
-    ldata = data[idata];
-    /* Byte to MB */
-    data[idata].y = Math.round((data[idata].y / (1024 * 1024)));
-  }
-
-  return data;
-}
-
-function net_total_graph(graph) {
-  graph.yAxis.axisLabel('Trafic (MB)').tickFormat(function(d) { return d3.format('.2f')(d); });
-}
-
-function net_total_options() {
-  return { area: true };
-}
-
-/*
- * mem
+/**
+ * Memory usage
  */
 
 function memory_usage_data(data) {
   for (var idata in data) {
     var ldata = data[idata];
-    /* Byte to MB */
-    data[idata].y = Math.round((data[idata].y / (1024 * 1024) ));
+    /* Byte to GB */
+    ldata.y = Math.round((ldata.y / (1024 * 1024) ));
   }
 
   return data;
 }
 
 function memory_usage_graph(graph) {
-  graph.yAxis.axisLabel('Memory (MB)').tickFormat(function(d) { return d3.format('.2f')(d); });
+  graph.yAxis.axisLabel('Memory usage (MB)').tickFormat(function(d) { return d3.format('.2f')(d); });
 }
 
 function memory_usage_options() {
+  return { area: true };
+}
+
+
+/**
+ * Disk trafic
+ */
+
+function dsk_total_data(data) {
+  for (var idata in data) {
+    var ldata = data[idata];
+    /* Byte to MB */
+    ldata.y = Math.round((ldata.y / (1024 * 1024) ));
+  }
+
+  return data;
+}
+
+function dsk_total_options() {
+  return { area: true };
+}
+
+function dsk_total_graph(graph) {
+  graph.yAxis.axisLabel('Disk trafic (MB)').tickFormat(function(d) { return d3.format('.2f')(d); });
+  graph.color(function (d) {
+    if (d.key == 'writ') return '#ff7f7f';
+    return '#1f77b4';
+  });
+}
+
+
+/**
+ * Network trafic
+ */
+
+function net_total_data(data) {
+  for (var idata in data) {
+    var ldata = data[idata];
+    /* Byte to MB */
+    ldata.y = Math.round((ldata.y / (1024 * 1024)));
+  }
+
+  return data;
+}
+
+function net_total_graph(graph) {
+  graph.yAxis.axisLabel('Network trafic (MB)').tickFormat(function(d) { return d3.format('.2f')(d); });
+  graph.color(function (d) {
+    if (d.key == 'send') return '#ff7f7f';
+    return '#1f77b4';
+  });
+}
+
+function net_total_options() {
   return { area: true };
 }
 
